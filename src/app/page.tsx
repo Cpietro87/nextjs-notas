@@ -1,4 +1,4 @@
-import NoteForm from "@/components/noteForm";
+import NoteForm from "@/components/NoteForm";
 
 async function loadNotes() {
   const res = await fetch("http://localhost:3000/api/notes");
@@ -9,7 +9,7 @@ export default async function Home() {
   const notes = await loadNotes();
   console.log(notes);
   return (
-    <div className="flex items-center justify-center h-screem">
+    <div className="flex items-center justify-center h-screen">
       <div>
         <NoteForm />
         {notes.map((note) => (
