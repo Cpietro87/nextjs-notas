@@ -9,11 +9,10 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
-
-model Nota {
-  id
-  title
-  content
-  createdAt
-  updataAt
+model Note {
+  id Int @id @default(autoincrement())
+  title String
+  content String?
+  createdAt DateTime @default(now())
+  updataAt DateTime @updatedAt
 }
