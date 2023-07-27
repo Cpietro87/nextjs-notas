@@ -3,7 +3,7 @@ import { Note } from "@prisma/client";
 import { useNotes } from "@/context/NoteContext";
 
 function NotedCard({ note }: { note: Note }) {
-  const { deleteNote } = useNotes();
+  const { deleteNote, setSelectedNote } = useNotes();
   return (
     <div key={note.id} className="bg-slate-400 p-4 m-2 flex justify-between">
       <div>
@@ -20,7 +20,10 @@ function NotedCard({ note }: { note: Note }) {
         >
           Delete
         </button>
-        <button>Edit</button>
+        <button onClick={() => {
+          setSelectedNote(note)
+        }}
+        >Edit</button>
       </div>
     </div>
   );

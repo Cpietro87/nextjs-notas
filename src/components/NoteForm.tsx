@@ -1,12 +1,20 @@
 "use client";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNotes } from "@/context/NoteContext";
 
 function NoteForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const { createNote } = useNotes();
-  const titleRef = useRef<HTMLInputElement>(null)
+  const { createNote, selectedNote, setSelectedNote } = useNotes();
+  console.log(selectedNote);
+  const titleRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (selectedNote) {
+      setTitle(selectedNote.title);
+      setContent(selectedNote.content || "");
+    }
+  }, [selectedNote]);
 
   return (
     <form
@@ -41,12 +49,29 @@ function NoteForm() {
         onChange={(e) => setContent(e.target.value)}
         value={content}
       ></textarea>
-      <button
-        className="px-5 py-2 text-white bg-blue-600 rounded-md
-      hover:bg-blue-700"
-      >
-        Save
-      </button>
+      <div className="flex justify-end gap-x-2">
+        <button
+          className="px-5 py-2 text-white bg-blue-600 
+          rounded-md hover:bg-blue-700"
+          type="submit"
+        >
+          Create
+        </button>
+        {selectedNote && (
+          <button
+            className="px-5 py-2 text-white bg-red-600 
+          rounded-md hover:bg-blue-700"
+            type="button"
+            onClick={() => {
+              setSelectedNote(null)
+              setTitle("")
+              setContent("")
+            }}
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }
