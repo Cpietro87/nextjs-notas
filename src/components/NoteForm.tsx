@@ -5,8 +5,7 @@ import { useNotes } from "@/context/NoteContext";
 function NoteForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const { createNote, selectedNote, setSelectedNote } = useNotes();
-  console.log(selectedNote);
+  const { createNote, selectedNote, setSelectedNote, updateNote } = useNotes();
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -20,10 +19,18 @@ function NoteForm() {
     <form
       onSubmit={async (e) => {
         e.preventDefault();
-        await createNote({
-          title,
-          content,
-        });
+        if (selectedNote) {
+          await updateNote(selectedNote.id, {
+            title,
+            content
+          })
+          setSelectedNote(null)
+        } else {
+          await createNote({
+            title,
+            content,
+          });
+        }
         setTitle("");
         setContent("");
 
@@ -55,7 +62,7 @@ function NoteForm() {
           rounded-md hover:bg-blue-700"
           type="submit"
         >
-          Create
+          {selectedNote ? "Update" : "Create"}
         </button>
         {selectedNote && (
           <button
@@ -63,9 +70,9 @@ function NoteForm() {
           rounded-md hover:bg-blue-700"
             type="button"
             onClick={() => {
-              setSelectedNote(null)
-              setTitle("")
-              setContent("")
+              setSelectedNote(null);
+              setTitle("");
+              setContent("");
             }}
           >
             Cancel

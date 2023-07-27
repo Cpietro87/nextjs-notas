@@ -82,7 +82,8 @@ export async function DELETE(request: Request, { params }: Params) {
 export async function PUT(request: Request, { params }: Params) {
   try {
     const { title, content } = await request.json();
-    const updateNote = prisma.note.update({
+
+    const updatedNote = await prisma.note.update({
       where: {
         id: Number(params.id),
       },
@@ -91,7 +92,8 @@ export async function PUT(request: Request, { params }: Params) {
         content,
       },
     });
-    return NextResponse.json(updateNote);
+
+    return NextResponse.json(updatedNote);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
