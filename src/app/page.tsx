@@ -1,5 +1,6 @@
 "use client";
 import NoteForm from "@/components/NoteForm";
+import NoteCard from "@/components/NotedCard";
 import { useNotes } from "@/context/NoteContext";
 import {  useEffect } from "react";
 
@@ -14,10 +15,7 @@ export default function Home() {
       <div>
         <NoteForm />
         {notes.map((note) => (
-          <div key={note.id} className="bg-slate-400 p-4 m-2">
-            <h1>{note.title}</h1>
-            <p>{note.content}</p>
-          </div>
+          <NoteCard note={note} key={note.id}/>
         ))}
       </div>
     </div>
